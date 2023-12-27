@@ -1,0 +1,8 @@
+server:
+  port: 8079
+
+spring:
+  application:
+    name: toy-scanner-service
+  profiles:
+    active: dev
