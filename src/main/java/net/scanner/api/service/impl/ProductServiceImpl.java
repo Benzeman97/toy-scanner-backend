@@ -140,4 +140,116 @@ public class ProductServiceImpl implements ProductService {
 
         return productResponses;
     }
+
+    @Override
+    public List<ProductResponse> getNewOfferItemList(int page) {
+
+        int itemPerPage = 16;
+
+        int start=page;
+
+        if(start==1)
+            start=0;
+        else
+            start= (page-1) * itemPerPage;
+
+        List<Product> products = productDao.getNewOfferItemList(start)
+                .orElseThrow(()->{
+                    LOGGER.error(String.format("new offer item list is empty"));
+                    throw new DataNotFoundException(String.format("new offer item list is empty"));
+                });
+
+        LOGGER.error(String.format("new offer list is returned with page %d",page));
+
+        List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
+                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getProdUrl(),
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate())).collect(Collectors.toList());
+
+        return productResponses;
+    }
+
+    @Override
+    public List<ProductResponse> getUnder25ItemList(int page) {
+
+        int itemPerPage = 16;
+
+        int start=page;
+
+        if(start==1)
+            start=0;
+        else
+            start= (page-1) * itemPerPage;
+
+        List<Product> products = productDao.getUnder25ItemList(start)
+                .orElseThrow(()->{
+                    LOGGER.error(String.format("under 25 item list is empty"));
+                    throw new DataNotFoundException(String.format("under 25 item list is empty"));
+                });
+
+        LOGGER.error(String.format("under 25 list is returned with page %d",page));
+
+        List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
+                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getProdUrl(),
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate())).collect(Collectors.toList());
+
+        return productResponses;
+    }
+
+    @Override
+    public List<ProductResponse> getNewReleaseItemList(int page) {
+
+        int itemPerPage = 16;
+
+        int start=page;
+
+        if(start==1)
+            start=0;
+        else
+            start= (page-1) * itemPerPage;
+
+        List<Product> products = productDao.getNewReleaseItemList(start)
+                .orElseThrow(()->{
+                    LOGGER.error(String.format("new release item list is empty"));
+                    throw new DataNotFoundException(String.format("new release item list is empty"));
+                });
+
+        LOGGER.error(String.format("new release item list is returned with page %d",page));
+
+        List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
+                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getProdUrl(),
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate())).collect(Collectors.toList());
+
+        return productResponses;
+    }
+
+    @Override
+    public List<ProductResponse> getBestSellingItemList(int page) {
+
+        int itemPerPage = 16;
+
+        int start=page;
+
+        if(start==1)
+            start=0;
+        else
+            start= (page-1) * itemPerPage;
+
+        List<Product> products = productDao.getNewReleaseItemList(start)
+                .orElseThrow(()->{
+                    LOGGER.error(String.format("best selling item list is empty"));
+                    throw new DataNotFoundException(String.format("best selling item list is empty"));
+                });
+
+        LOGGER.error(String.format("best selling item list is returned with page %d",page));
+
+        List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
+                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getProdUrl(),
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate())).collect(Collectors.toList());
+
+        return productResponses;
+    }
 }
