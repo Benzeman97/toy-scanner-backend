@@ -1,6 +1,6 @@
 package net.scanner.api.exceptional;
 
-import net.scanner.api.modal.ErrorMessage;
+import net.scanner.api.model.ErrorMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

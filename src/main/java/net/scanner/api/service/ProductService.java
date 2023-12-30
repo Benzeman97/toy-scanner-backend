@@ -1,5 +1,6 @@
 package net.scanner.api.service;
 
+import net.scanner.api.dto.response.ProductListResponse;
 import net.scanner.api.dto.response.ProductResponse;
 
 import java.util.List;
@@ -11,12 +12,16 @@ public interface ProductService {
     List<ProductResponse> getNewReleaseItems();
     List<ProductResponse> getTrendingItems();
     List<ProductResponse> getBestSellingItems();
-    List<ProductResponse> getNewOfferItemList(int page);
+    ProductListResponse getNewOfferItemList(int page);
 
-    List<ProductResponse> getUnder25ItemList(int page);
+    ProductListResponse getUnder25ItemList(int page);
 
-    List<ProductResponse> getNewReleaseItemList(int page);
+    ProductListResponse getNewReleaseItemList(int page);
 
-    List<ProductResponse> getBestSellingItemList(int page);
+    ProductListResponse getBestSellingItemList(int page);
+
+    ProductListResponse getItemsByBrand(String name,int page);
+
+    ProductListResponse getItemsBySearch(String f_value,int ctg_id,String value,int page);
 
 }

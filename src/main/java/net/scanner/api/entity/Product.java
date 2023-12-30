@@ -15,7 +15,7 @@ import java.util.Objects;
 @Setter
 public class Product {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     @Column(name = "product_id")
     private int productId;
@@ -66,6 +66,12 @@ public class Product {
 
     @Column(name = "selling_rate")
     private BigDecimal sellingRate;
+
+    @Column(name = "for_value")
+    private String forValue;
+
+    @Column(name = "category_id")
+    private int categoryId;
 
     @Column(name = "inserted_date")
     private LocalDateTime insertedDate;

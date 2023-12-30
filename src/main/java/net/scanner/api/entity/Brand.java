@@ -12,12 +12,15 @@ import java.util.Objects;
 @Setter
 public class Brand {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     @Column(name = "brand_id")
     private int brandId;
 
     @Column(name = "brand_name")
     private String brandName;
+
+    @Column(name = "brand_img")
+    private String brandImg;
 
 }

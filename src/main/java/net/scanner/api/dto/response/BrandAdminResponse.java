@@ -1,4 +1,4 @@
-package net.scanner.api.modal;
+package net.scanner.api.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,9 +11,9 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ErrorMessage implements Serializable {
+public class BrandAdminResponse implements Serializable {
 
-    private int status;
-    private String message;
-    private String contact;
+    private int brandId;
+    private String brandName;
+    private boolean status;
 }

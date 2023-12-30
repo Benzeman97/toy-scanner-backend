@@ -12,7 +12,7 @@ import java.util.Objects;
 @Setter
 public class Deal {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     @Column(name = "deal_id")
     private int dealId;

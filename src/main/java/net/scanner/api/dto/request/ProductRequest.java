@@ -7,8 +7,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,7 +20,7 @@ public class ProductRequest implements Serializable {
     private BigDecimal prevPrice;
     private String material;
     private String shippingCountry;
-    private LocalDateTime offerExpDate;
+    private String offerExpDate;
     private String productImg;
     private String brandImg;
     private String platformImg;
@@ -31,4 +30,6 @@ public class ProductRequest implements Serializable {
     private String itemUrl;
     private String offerType;
     private BigDecimal sellingRate;
+    private String forValue;
+    private int ctgId;
 }

@@ -1,6 +1,6 @@
 package net.scanner.api.dao;
 
-import net.scanner.api.entity.Deal;
+import net.scanner.api.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface DealDao extends JpaRepository<Deal,Integer> {
+public interface CategoryDao extends JpaRepository<Category,Integer> {
 
-    @Query(value = "select * from deal d where lower(d.deal_name)=:name",nativeQuery = true)
-    Optional<Deal> getDealByName(@Param("name") String name);
+    @Query(value = "select * from category c where lower(c.category_name)=:name",nativeQuery = true)
+    Optional<Category> getCategoryByName(@Param("name") String name);
 }

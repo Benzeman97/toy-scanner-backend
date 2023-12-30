@@ -33,4 +33,7 @@ public class ProductResponse implements Serializable {
     private String itemUrl;
     private String offerType;
     private BigDecimal sellingRate;
+    private String forValue;
+    private int ctgId;
+
 }
