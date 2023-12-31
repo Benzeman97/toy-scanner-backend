@@ -1,7 +1,7 @@
 discovery:
   server:
     port: 8070
-    hostName: 18.225.21.42
+    hostName: 104.36.85.71
 
 eureka:
   client:
@@ -12,9 +12,9 @@ eureka:
     fetch-registry: true
   instance:
     preferIpAddress: true
-    ip-address: 18.118.73.177
-    hostname: 18.118.73.177
-    #non-secure-port: 9096
+    ip-address: 52.44.140.170
+    hostname: 52.44.140.170
+    #non-secure-port: 8079
 
 logging:
   file:
@@ -40,7 +40,7 @@ database:
 spring:
   datasource:
     url: 'jdbc:mysql://${database.host}:${database.port}/${database.db-name}?createDatabaseIfNotExists=true&autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false'
-    username: root
+    username: scanner
     password: 14292Scanner
     driver-class-name: com.mysql.cj.jdbc.Driver
     tomcat:

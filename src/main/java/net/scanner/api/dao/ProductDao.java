@@ -48,7 +48,7 @@ public interface ProductDao extends JpaRepository<Product,Integer> {
 //    @Query(value = "SELECT *, CASE WHEN p.price <= :maxPrice THEN 'Under $25' WHEN p.price BETWEEN :minPrice AND $:maxPrice THEN '$25-50' WHEN p.price BETWEEN :minPrice AND :maxPrice THEN '$50-100' WHEN p.price >= :minPrice THEN '$200-Above' ELSE 'Any Price' END AS price_range FROM product p WHERE lower(p.for_value) = :forValue AND p.category_id = :ctgId AND (:minPrice IS NULL OR p.price >= :minPrice) AND (:maxPrice IS NULL OR p.price <= :maxPrice) LIMIT 16 OFFSET :offset", nativeQuery = true)
 //    Optional<List<Product>> getItemsBySearch(@Param("forValue") String forValue, @Param("ctgId") int ctgId, @Param("minPrice") BigDecimal minPrice, @Param("maxPrice") BigDecimal maxPrice, @Param("offset") int offset);
 
-    @Query(value = "SELECT * FROM product p WHERE lower(p.for_value) = :forValue AND p.category_id = :ctgId AND p.price >= :minPrice AND p.price <= :maxPrice", nativeQuery = true)
+    @Query(value = "select * from product p where lower(p.for_value) = :forValue and p.category_id = :ctgId and p.price >= :minPrice and p.price <= :maxPrice limit 16 offset :offset", nativeQuery = true)
     Optional<List<Product>> getItemsBySearch(@Param("forValue") String forValue, @Param("ctgId") int ctgId, @Param("minPrice") BigDecimal minPrice, @Param("maxPrice") BigDecimal maxPrice, @Param("offset") int offset);
 
     @Query(value = "select count(*) from product",nativeQuery = true)
