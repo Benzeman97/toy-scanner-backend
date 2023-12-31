@@ -28,7 +28,7 @@ public class ProductResponse implements Serializable {
     private String brandImg;
     private String platformImg;
     private String brandName;
-    private String prodUrl;
+    private String platformUrl;
     private String platform;
     private String itemUrl;
     private String offerType;

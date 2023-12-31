@@ -51,8 +51,8 @@ dependencies {
 
 
 bootJar{
-	archivesBaseName='toy-scanner-service'
-	archiveFileName='toy-scanner-service.jar'
+	archivesBaseName='joy-scanner-service'
+	archiveFileName='joy-scanner-service.jar'
 }
 
 tasks.named('test') {

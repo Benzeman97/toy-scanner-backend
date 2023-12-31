@@ -53,8 +53,8 @@ public class Product {
     @Column(name = "brand_name")
     private String brandName;
 
-    @Column(name = "prod_url")
-    private String prodUrl;
+    @Column(name = "platform_url")
+    private String platformUrl;
 
     private String platform;
 

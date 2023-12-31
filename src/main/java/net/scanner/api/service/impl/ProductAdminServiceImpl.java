@@ -44,7 +44,7 @@ public class ProductAdminServiceImpl implements ProductAdminService {
         return new ProductResponse(product.getProductId(), product.getProductName(), product.getPrice(), product.getPrevPrice(),
                 product.getDiscount(), product.getDiscountPercentage(),product.getMaterial(),product.getShippingCountry(),
                 product.getOfferExpDate(), product.getProductImg(),product.getBrandImg(), product.getPlatformImg(), product.getBrandName(),
-                product.getProdUrl(),product.getPlatform(), product.getItemUrl(), product.getOfferType(), product.getSellingRate(),
+                product.getPlatformUrl(),product.getPlatform(), product.getItemUrl(), product.getOfferType(), product.getSellingRate(),
                 product.getForValue(),product.getCategoryId());
 
     }
@@ -60,7 +60,7 @@ public class ProductAdminServiceImpl implements ProductAdminService {
         return new ProductResponse(product.getProductId(), product.getProductName(), product.getPrice(), product.getPrevPrice(),
                 product.getDiscount(), product.getDiscountPercentage(),product.getMaterial(),product.getShippingCountry(),
                 product.getOfferExpDate(), product.getProductImg(),product.getBrandImg(), product.getPlatformImg(), product.getBrandName(),
-                product.getProdUrl(),product.getPlatform(), product.getItemUrl(), product.getOfferType(), product.getSellingRate(),
+                product.getPlatformUrl(),product.getPlatform(), product.getItemUrl(), product.getOfferType(), product.getSellingRate(),
                 product.getForValue(),product.getCategoryId());
     }
 
@@ -104,13 +104,14 @@ public class ProductAdminServiceImpl implements ProductAdminService {
          product.setDiscountPercentage(getDiscountPercentage(request.getPrice(),request.getPrevPrice()));
          product.setMaterial(request.getMaterial());
          product.setShippingCountry(request.getShippingCountry());
+         if(request.getOfferType().equalsIgnoreCase("offers"))
          product.setOfferExpDate(getOfferEndDate(request.getOfferExpDate()));
+         else product.setOfferExpDate(null);
          product.setProductImg(request.getProductImg());
          product.setBrandImg(request.getBrandImg());
          product.setPlatformImg(request.getPlatformImg());
          product.setBrandName(request.getBrandName());
-         product.setProdUrl(request.getProdUrl());
-         product.setProdUrl(request.getProdUrl());
+         product.setPlatformUrl(request.getPlatformUrl());
          product.setPlatform(request.getPlatform());
          product.setItemUrl(request.getItemUrl());
          product.setSellingRate(request.getSellingRate());
