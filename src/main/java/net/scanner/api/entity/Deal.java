@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -20,7 +21,10 @@ public class Deal {
     @Column(name = "deal_name")
     private String dealName;
 
-    @Column(name = "product_id")
-    private int productId;
+    @Column(name = "deal_type")
+    private String dealType;
+
+    @Column(name = "launched_date")
+    private LocalDateTime launchedDate;
 
 }

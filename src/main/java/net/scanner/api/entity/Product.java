@@ -73,6 +73,9 @@ public class Product {
     @Column(name = "category_id")
     private int categoryId;
 
+    @Column(name = "deal_id")
+    private int dealId;
+
     @Column(name = "inserted_date")
     private LocalDateTime insertedDate;
 

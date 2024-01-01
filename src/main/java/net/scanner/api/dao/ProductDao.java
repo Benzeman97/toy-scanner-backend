@@ -53,4 +53,8 @@ public interface ProductDao extends JpaRepository<Product,Integer> {
 
     @Query(value = "select count(*) from product",nativeQuery = true)
     long getNumOfItems();
+
+    @Query(value = "select * from deal d where d.deal_id=:id limit 6",nativeQuery = true)
+    Optional<List<Product>> getProductByDealId(@Param("id") int id);
+
 }

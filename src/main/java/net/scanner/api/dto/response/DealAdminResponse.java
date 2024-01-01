@@ -15,5 +15,6 @@ public class DealAdminResponse implements Serializable {
 
     private int dealId;
     private String dealName;
+    private String dealType;
     private boolean status;
 }

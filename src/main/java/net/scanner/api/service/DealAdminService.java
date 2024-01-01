@@ -17,4 +17,5 @@ public interface DealAdminService {
 
     boolean deleteDeal(int dealId);
 
+
 }

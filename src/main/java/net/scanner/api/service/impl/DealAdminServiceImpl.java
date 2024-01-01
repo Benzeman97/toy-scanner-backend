@@ -1,20 +1,18 @@
 package net.scanner.api.service.impl;
 
-import net.scanner.api.dao.BrandDao;
 import net.scanner.api.dao.DealDao;
 import net.scanner.api.dto.request.DealRequest;
-import net.scanner.api.dto.response.BrandAdminResponse;
-import net.scanner.api.dto.response.BrandResponse;
 import net.scanner.api.dto.response.DealAdminResponse;
 import net.scanner.api.dto.response.DealResponse;
-import net.scanner.api.entity.Brand;
 import net.scanner.api.entity.Deal;
 import net.scanner.api.service.DealAdminService;
+import net.scanner.api.service.ProductAdminService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Service
@@ -23,9 +21,11 @@ public class DealAdminServiceImpl implements DealAdminService {
     final private static Logger LOGGER = LogManager.getLogger(DealAdminServiceImpl.class);
 
     private DealDao dealDao;
+    private ProductAdminService productAdminService;
 
-    public DealAdminServiceImpl(DealDao dealDao){
+    public DealAdminServiceImpl(DealDao dealDao,ProductAdminService productAdminService){
         this.dealDao=dealDao;
+        this.productAdminService=productAdminService;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class DealAdminServiceImpl implements DealAdminService {
 
         LOGGER.info(String.format("deal is returned with %d",id));
 
-        return new DealResponse(deal.getDealId(),deal.getDealName());
+        return new DealResponse(deal.getDealId(),deal.getDealName(),deal.getDealType());
     }
 
     @Override
@@ -47,7 +47,7 @@ public class DealAdminServiceImpl implements DealAdminService {
 
         LOGGER.info(String.format("deal is returned with %s",name));
 
-        return new DealResponse(deal.getDealId(),deal.getDealName());
+        return new DealResponse(deal.getDealId(),deal.getDealName(),deal.getDealType());
     }
 
     @Override
@@ -57,12 +57,13 @@ public class DealAdminServiceImpl implements DealAdminService {
                 .orElse(new Deal());
 
         deal.setDealName(request.getDealName());
+        deal.setLaunchedDate(LocalDateTime.now());
 
         deal = dealDao.save(deal);
 
         LOGGER.info(String.format("deal has been saved with %d",deal.getDealId()));
 
-        return new DealAdminResponse(deal.getDealId(),deal.getDealName(),true);
+        return new DealAdminResponse(deal.getDealId(),deal.getDealName(),deal.getDealType(),true);
 
     }
 
@@ -77,10 +78,16 @@ public class DealAdminServiceImpl implements DealAdminService {
             return false;
         }
 
+       boolean status = productAdminService.setValueForDealId(dealId);
+
+        if(!status)
+            return false;
+
         dealDao.delete(deal);
 
         LOGGER.info(String.format("deal is deleted with %d", dealId));
 
         return true;
     }
+
 }

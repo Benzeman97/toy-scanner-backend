@@ -17,10 +17,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductAdminServiceImpl implements ProductAdminService {
@@ -45,7 +43,7 @@ public class ProductAdminServiceImpl implements ProductAdminService {
                 product.getDiscount(), product.getDiscountPercentage(),product.getMaterial(),product.getShippingCountry(),
                 product.getOfferExpDate(), product.getProductImg(),product.getBrandImg(), product.getPlatformImg(), product.getBrandName(),
                 product.getPlatformUrl(),product.getPlatform(), product.getItemUrl(), product.getOfferType(), product.getSellingRate(),
-                product.getForValue(),product.getCategoryId());
+                product.getForValue(),product.getCategoryId(),product.getDealId());
 
     }
 
@@ -61,7 +59,7 @@ public class ProductAdminServiceImpl implements ProductAdminService {
                 product.getDiscount(), product.getDiscountPercentage(),product.getMaterial(),product.getShippingCountry(),
                 product.getOfferExpDate(), product.getProductImg(),product.getBrandImg(), product.getPlatformImg(), product.getBrandName(),
                 product.getPlatformUrl(),product.getPlatform(), product.getItemUrl(), product.getOfferType(), product.getSellingRate(),
-                product.getForValue(),product.getCategoryId());
+                product.getForValue(),product.getCategoryId(),product.getDealId());
     }
 
     @Override
@@ -97,6 +95,10 @@ public class ProductAdminServiceImpl implements ProductAdminService {
     }
 
     private Product setProduct(Product product,ProductRequest request) throws ParseException {
+
+        if(Objects.isNull(product.getProductId()))
+            product.setInsertedDate(LocalDateTime.now());
+
          product.setProductName(request.getProductName());
          product.setPrice(request.getPrice());
          product.setPrevPrice(request.getPrevPrice());
@@ -104,7 +106,7 @@ public class ProductAdminServiceImpl implements ProductAdminService {
          product.setDiscountPercentage(getDiscountPercentage(request.getPrice(),request.getPrevPrice()));
          product.setMaterial(request.getMaterial());
          product.setShippingCountry(request.getShippingCountry());
-         if(request.getOfferType().equalsIgnoreCase("offers"))
+         if(request.getOfferType().equalsIgnoreCase("offer"))
          product.setOfferExpDate(getOfferEndDate(request.getOfferExpDate()));
          else product.setOfferExpDate(null);
          product.setProductImg(request.getProductImg());
@@ -118,6 +120,8 @@ public class ProductAdminServiceImpl implements ProductAdminService {
          product.setOfferType(request.getOfferType());
          product.setForValue(request.getForValue());
          product.setCategoryId(request.getCtgId());
+         product.setDealId(request.getDealId());
+         product.setUpdatedDate(LocalDateTime.now());
 
          return product;
     }
@@ -165,6 +169,38 @@ public class ProductAdminServiceImpl implements ProductAdminService {
 
         return LocalDateTime.parse(outputDateString, formatter);
 
+    }
+
+    @Override
+    public boolean setValueForDealId(int id) {
+
+        List<Product> products = getProductsByDealId(id);
+
+        products = products.stream().map(p->setValue(p)).collect(Collectors.toList());
+
+        productDao.saveAll(products);
+
+        LOGGER.error(String.format("deal id are set to 0 with id %d",id));
+
+        return true;
+    }
+
+    private Product setValue(Product p){
+        p.setDealId(0);
+        return  p;
+    }
+
+    @Override
+    public List<Product> getProductsByDealId(int id){
+
+        List<Product> products = productDao.getProductByDealId(id)
+                .orElse(Arrays.asList());
+
+        LOGGER.error(String.format("item list is returned with id %d",id));
+
+        return products;
 
     }
+
+
 }

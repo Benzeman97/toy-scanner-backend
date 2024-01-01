@@ -15,4 +15,5 @@ public class DealResponse implements Serializable {
 
     private int dealId;
     private String dealName;
+    private String dealType;
 }
