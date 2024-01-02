@@ -57,4 +57,102 @@ public interface ProductDao extends JpaRepository<Product,Integer> {
     @Query(value = "select * from deal d where d.deal_id=:id limit 6",nativeQuery = true)
     Optional<List<Product>> getProductByDealId(@Param("id") int id);
 
+    @Query(value = "select count(*) product p where p.offer_type='offer'",nativeQuery = true)
+    long getNumOfNewOfferItems();
+    @Query(value = "select * from product p where p.offer_type='offer' order by p.price asc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getNewOffersByPriceLowToHigh(@Param("offset") int offset);
+
+    @Query(value = "select * from product p where p.offer_type='offer' order by p.price desc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getNewOffersByPriceHighToLow(@Param("offset") int offset);
+
+    @Query(value = "select * from product p where p.offer_type='offer' order by p.updated_date desc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getNewOffersByDateNewToOld(@Param("offset") int offset);
+
+    @Query(value = "select * from product p where p.offer_type='offer' order by p.updated_date asc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getNewOffersByDateOldToNew(@Param("offset") int offset);
+
+    @Query(value = "select * from product p where p.offer_type='offer' order by p.selling_rate desc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getNewOffersByBestSelling(@Param("offset") int offset);
+
+    @Query(value = "select count(*) product p where p.price <= 25.00",nativeQuery = true)
+    long getNumOfUnder25Items();
+    @Query(value = "select * from product p where p.price <= 25.00 order by p.price asc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getUnder25ByPriceLowToHigh(@Param("offset") int offset);
+
+    @Query(value = "select * from product p where p.price <= 25.00 order by p.price desc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getUnder25ByPriceHighToLow(@Param("offset") int offset);
+
+    @Query(value = "select * from product p where p.price <= 25.00 order by p.updated_date desc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getUnder25ByDateNewToOld(@Param("offset") int offset);
+
+    @Query(value = "select * from product p where p.price <= 25.00 order by p.updated_date asc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getUnder25ByDateOldToNew(@Param("offset") int offset);
+
+    @Query(value = "select * from product p where p.price <= 25.00 order by p.selling_rate desc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getUnder25ByBestSelling(@Param("offset") int offset);
+
+    @Query(value = "select count(*) product p where p.offer_type='release'",nativeQuery = true)
+    long getNumOfNewReleaseItems();
+    @Query(value = "select * from product p where p.offer_type='release' order by p.price asc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getNewReleaseByPriceLowToHigh(@Param("offset") int offset);
+
+    @Query(value = "select * from product p where p.offer_type='release' order by p.price desc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getNewReleaseByPriceHighToLow(@Param("offset") int offset);
+
+    @Query(value = "select * from product p where p.offer_type='release' order by p.updated_date desc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getNewReleaseByDateNewToOld(@Param("offset") int offset);
+
+    @Query(value = "select * from product p where p.offer_type='release' order by p.updated_date asc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getNewReleaseByDateOldToNew(@Param("offset") int offset);
+
+    @Query(value = "select * from product p where p.offer_type='release' order by p.selling_rate desc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getNewReleaseByBestSelling(@Param("offset") int offset);
+
+
+    @Query(value = "select * from product p order by p.selling_rate desc, p.price asc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getBestSellingByPriceLowToHigh(@Param("offset") int offset);
+
+    @Query(value = "select * from product p order by p.selling_rate desc, p.price desc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getBestSellingByPriceHighToLow(@Param("offset") int offset);
+
+    @Query(value = "select * from product p order by p.selling_rate desc, p.updated_date desc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getBestSellingByDateNewToOld(@Param("offset") int offset);
+
+    @Query(value = "select * from product p order by p.selling_rate desc, p.updated_date asc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getBestSellingByDateOldToNew(@Param("offset") int offset);
+
+    @Query(value = "select count(*) product p where lower(p.brand_name)=:brandName",nativeQuery = true)
+    long getNumOfBrandItems(@Param("brandName") String brandName);
+    @Query(value = "select * from product p where lower(p.brand_name)=:brandName order by p.price asc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getBrandItemsByPriceLowToHigh(@Param("brandName") String brandName, @Param("offset") int offset);
+
+    @Query(value = "select * from product p where lower(p.brand_name)=:brandName order by p.price desc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getBrandItemsByPriceHighToLow(@Param("brandName") String brandName, @Param("offset") int offset);
+
+    @Query(value = "select * from product p where lower(p.brand_name)=:brandName order by p.updated_date desc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getBrandItemsByDateNewToOld(@Param("brandName") String brandName, @Param("offset") int offset);
+
+    @Query(value = "select * from product p where lower(p.brand_name)=:brandName order by p.updated_date asc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getBrandItemsByDateOldToNew(@Param("brandName") String brandName, @Param("offset") int offset);
+
+    @Query(value = "select * from product p where lower(p.brand_name)=:brandName order by p.selling_rate desc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getBrandItemsByBestSelling(@Param("brandName") String brandName, @Param("offset") int offset);
+
+    @Query(value = "select count(*) product p where lower(p.for_value) = :forValue and p.category_id = :ctgId and p.price >= :minPrice and p.price <= :maxPrice",nativeQuery = true)
+    long getNumOfSearchItems(@Param("forValue") String forValue, @Param("ctgId") int ctgId, @Param("minPrice") BigDecimal minPrice, @Param("maxPrice") BigDecimal maxPrice);
+    @Query(value = "select * from product p where lower(p.for_value) = :forValue and p.category_id = :ctgId and p.price >= :minPrice and p.price <= :maxPrice order by p.price asc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getSearchItemsByPriceLowToHigh(@Param("forValue") String forValue, @Param("ctgId") int ctgId, @Param("minPrice") BigDecimal minPrice, @Param("maxPrice") BigDecimal maxPrice, @Param("offset") int offset);
+
+    @Query(value = "select * from product p where lower(p.for_value) = :forValue and p.category_id = :ctgId and p.price >= :minPrice and p.price <= :maxPrice order by p.price desc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getSearchItemsByPriceHighToLow(@Param("forValue") String forValue, @Param("ctgId") int ctgId, @Param("minPrice") BigDecimal minPrice, @Param("maxPrice") BigDecimal maxPrice, @Param("offset") int offset);
+
+    @Query(value = "select * from product p where lower(p.for_value) = :forValue and p.category_id = :ctgId and p.price >= :minPrice and p.price <= :maxPrice order by p.updated_date desc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getSearchItemsByDateNewToOld(@Param("forValue") String forValue, @Param("ctgId") int ctgId, @Param("minPrice") BigDecimal minPrice, @Param("maxPrice") BigDecimal maxPrice, @Param("offset") int offset);
+
+    @Query(value = "select * from product p where lower(p.for_value) = :forValue and p.category_id = :ctgId and p.price >= :minPrice and p.price <= :maxPrice order by p.updated_date asc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getSearchItemsByDateOldToNew(@Param("forValue") String forValue, @Param("ctgId") int ctgId, @Param("minPrice") BigDecimal minPrice, @Param("maxPrice") BigDecimal maxPrice, @Param("offset") int offset);
+
+    @Query(value = "select * from product p where lower(p.for_value) = :forValue and p.category_id = :ctgId and p.price >= :minPrice and p.price <= :maxPrice order by p.selling_rate desc limit 16 offset :offset",nativeQuery = true)
+    Optional<List<Product>> getSearchItemsByBestSelling(@Param("forValue") String forValue, @Param("ctgId") int ctgId, @Param("minPrice") BigDecimal minPrice, @Param("maxPrice") BigDecimal maxPrice, @Param("offset") int offset);
+
 }

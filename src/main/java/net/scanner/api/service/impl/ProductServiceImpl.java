@@ -170,7 +170,7 @@ public class ProductServiceImpl implements ProductService {
                 p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
                 p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
-        long numOfItems = productDao.getNumOfItems();
+        long numOfItems = productDao.getNumOfNewOfferItems();
 
         return new ProductListResponse(productResponses,numOfItems);
     }
@@ -201,7 +201,7 @@ public class ProductServiceImpl implements ProductService {
                 p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
                 p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
-        long numOfItems = productDao.getNumOfItems();
+        long numOfItems = productDao.getNumOfUnder25Items();
 
         return new ProductListResponse(productResponses,numOfItems);
     }
@@ -232,7 +232,7 @@ public class ProductServiceImpl implements ProductService {
                 p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
                 p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
-        long numOfItems = productDao.getNumOfItems();
+        long numOfItems = productDao.getNumOfNewReleaseItems();
 
         return new ProductListResponse(productResponses,numOfItems);
     }
@@ -281,7 +281,7 @@ public class ProductServiceImpl implements ProductService {
         else
             start= (page-1) * itemPerPage;
 
-        List<Product> products = productDao.getItemsByBrand(name.toLowerCase(),page)
+        List<Product> products = productDao.getItemsByBrand(name.toLowerCase(),start)
                 .orElseThrow(()->{
                     LOGGER.error(String.format("%s item list is empty",name));
                     throw new DataNotFoundException(String.format("%s item list is empty",name));
@@ -294,7 +294,7 @@ public class ProductServiceImpl implements ProductService {
                 p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
                 p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
-        long numOfItems = productDao.getNumOfItems();
+        long numOfItems = productDao.getNumOfBrandItems(name.toLowerCase());
 
         return new ProductListResponse(productResponses,numOfItems);
 
@@ -349,7 +349,7 @@ public class ProductServiceImpl implements ProductService {
                 break;
         }
 
-        List<Product> products = productDao.getItemsBySearch(f_value.toLowerCase(),ctg_id,minPrice,maxPrice,page)
+        List<Product> products = productDao.getItemsBySearch(f_value.toLowerCase(),ctg_id,minPrice,maxPrice,start)
                 .orElseThrow(()->{
                     LOGGER.error(String.format("item list is empty"));
                     throw new DataNotFoundException(String.format("item list is empty"));
@@ -362,7 +362,7 @@ public class ProductServiceImpl implements ProductService {
                 p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
                 p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
-        long numOfItems = productDao.getNumOfItems();
+        long numOfItems = productDao.getNumOfSearchItems(f_value.toLowerCase(),ctg_id,minPrice,maxPrice);
 
         return new ProductListResponse(productResponses,numOfItems);
 
@@ -382,7 +382,271 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public ProductListResponse getOffersByFilter() {
-        return null;
+    public ProductListResponse getOffersByFilter(String filter, int page) {
+
+        int itemPerPage = 16;
+
+        int start=page;
+
+        if(start==1)
+            start=0;
+        else
+            start= (page-1) * itemPerPage;
+
+        List<Product> products = null;
+
+        if(filter.equalsIgnoreCase("s2"))
+            products = productDao.getNewOffersByPriceLowToHigh(start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s3"))
+            products = productDao.getNewOffersByPriceHighToLow(start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s4"))
+            products = productDao.getNewOffersByDateNewToOld(start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s5"))
+            products = productDao.getNewOffersByDateOldToNew(start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s6"))
+            products = productDao.getNewOffersByBestSelling(start).orElse(Arrays.asList());
+        else
+            products = productDao.getNewOfferItemList(page).orElse(Arrays.asList());
+
+        LOGGER.error(String.format("new offer filter list is returned with page %d",page));
+
+        List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
+                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+
+        long numOfItems = productDao.getNumOfNewOfferItems();
+
+        return new ProductListResponse(productResponses,numOfItems);
+
+    }
+
+    @Override
+    public ProductListResponse getUnder25ByFilter(String filter, int page) {
+
+        int itemPerPage = 16;
+
+        int start=page;
+
+        if(start==1)
+            start=0;
+        else
+            start= (page-1) * itemPerPage;
+
+        List<Product> products = null;
+
+        if(filter.equalsIgnoreCase("s2"))
+            products = productDao.getUnder25ByPriceLowToHigh(start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s3"))
+            products = productDao.getUnder25ByPriceHighToLow(start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s4"))
+            products = productDao.getUnder25ByDateNewToOld(start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s5"))
+            products = productDao.getUnder25ByDateOldToNew(start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s6"))
+            products = productDao.getUnder25ByBestSelling(start).orElse(Arrays.asList());
+        else
+            products = productDao.getUnder25ItemList(start).orElse(Arrays.asList());
+
+        LOGGER.error(String.format("under 25 filter list is returned with page %d",page));
+
+        List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
+                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+
+        long numOfItems = productDao.getNumOfUnder25Items();
+
+        return new ProductListResponse(productResponses,numOfItems);
+    }
+
+    @Override
+    public ProductListResponse getReleasesByFilter(String filter, int page) {
+
+        int itemPerPage = 16;
+
+        int start=page;
+
+        if(start==1)
+            start=0;
+        else
+            start= (page-1) * itemPerPage;
+
+        List<Product> products = null;
+
+        if(filter.equalsIgnoreCase("s2"))
+            products = productDao.getNewReleaseByPriceLowToHigh(start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s3"))
+            products = productDao.getNewReleaseByPriceHighToLow(start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s4"))
+            products = productDao.getNewReleaseByDateNewToOld(start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s5"))
+            products = productDao.getNewReleaseByDateOldToNew(start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s6"))
+            products = productDao.getNewReleaseByBestSelling(start).orElse(Arrays.asList());
+        else
+            products = productDao.getNewReleaseItemList(start).orElse(Arrays.asList());
+
+        LOGGER.error(String.format("new release filter list is returned with page %d",page));
+
+        List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
+                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+
+        long numOfItems = productDao.getNumOfNewReleaseItems();
+
+        return new ProductListResponse(productResponses,numOfItems);
+    }
+
+    @Override
+    public ProductListResponse getBestSellingByFilter(String filter, int page) {
+
+        int itemPerPage = 16;
+
+        int start=page;
+
+        if(start==1)
+            start=0;
+        else
+            start= (page-1) * itemPerPage;
+
+        List<Product> products = null;
+
+        if(filter.equalsIgnoreCase("s2"))
+            products = productDao.getBestSellingByPriceLowToHigh(start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s3"))
+            products = productDao.getBestSellingByPriceHighToLow(start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s4"))
+            products = productDao.getBestSellingByDateNewToOld(start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s5"))
+            products = productDao.getBestSellingByDateOldToNew(start).orElse(Arrays.asList());
+        else
+            products = productDao.getBestSellingItemList(start).orElse(Arrays.asList());
+
+        LOGGER.error(String.format("best selling filter list is returned with page %d",page));
+
+        List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
+                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+
+        long numOfItems = productDao.getNumOfItems();
+
+        return new ProductListResponse(productResponses,numOfItems);
+    }
+
+    @Override
+    public ProductListResponse getBrandItemsByFilter(String filter, String brandName, int page) {
+
+        int itemPerPage = 16;
+
+        int start=page;
+
+        if(start==1)
+            start=0;
+        else
+            start= (page-1) * itemPerPage;
+
+        List<Product> products = null;
+
+        if(filter.equalsIgnoreCase("s2"))
+            products = productDao.getBrandItemsByPriceLowToHigh(brandName.toLowerCase(),start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s3"))
+            products = productDao.getBrandItemsByPriceHighToLow(brandName.toLowerCase(),start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s4"))
+            products = productDao.getBrandItemsByDateNewToOld(brandName.toLowerCase(),start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s5"))
+            products = productDao.getBrandItemsByDateOldToNew(brandName.toLowerCase(),start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s6"))
+            products = productDao.getBrandItemsByBestSelling(brandName.toLowerCase(),start).orElse(Arrays.asList());
+        else
+            products = productDao.getItemsByBrand(brandName.toLowerCase(),page).orElse(Arrays.asList());
+
+        LOGGER.error(String.format("brand filter list is returned with page %d",page));
+
+        List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
+                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+
+        long numOfItems = productDao.getNumOfBrandItems(brandName.toLowerCase());
+
+        return new ProductListResponse(productResponses,numOfItems);
+    }
+
+    @Override
+    public ProductListResponse getSearchItemsByFilter(String filter, String f_value, int ctg_id, String value, int page) {
+
+        int itemPerPage = 16;
+
+        int start=page;
+
+        if(start==1)
+            start=0;
+        else
+            start= (page-1) * itemPerPage;
+
+        BigDecimal minPrice;
+        BigDecimal maxPrice;
+
+        String priceRange = value;
+
+        switch (priceRange) {
+            case "u1":
+                minPrice = new BigDecimal("00.01");
+                maxPrice = new BigDecimal("25.00");
+                break;
+            case "u2":
+                minPrice = new BigDecimal("25.00");
+                maxPrice = new BigDecimal("50.00");
+                break;
+            case "u3":
+                minPrice = new BigDecimal("50.00");
+                maxPrice = new BigDecimal("100.00");
+                break;
+            case "u4":
+                minPrice = new BigDecimal("100.00");
+                maxPrice = new BigDecimal("200.00");
+                break;
+            case "u5":
+                minPrice = new BigDecimal("200.00");
+                maxPrice = new BigDecimal("50000.00"); // Highest possible value
+                break;
+            case "u6":
+                minPrice = BigDecimal.ZERO;
+                maxPrice = new BigDecimal("50000.00");
+                break;
+            default:
+                minPrice = BigDecimal.ZERO;
+                maxPrice = new BigDecimal("50000.00");
+                break;
+        }
+
+        List<Product> products = null;
+
+        if(filter.equalsIgnoreCase("s2"))
+            products = productDao.getSearchItemsByPriceLowToHigh(f_value.toLowerCase(),ctg_id,minPrice,maxPrice,start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s3"))
+            products = productDao.getSearchItemsByPriceHighToLow(f_value.toLowerCase(),ctg_id,minPrice,maxPrice,start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s4"))
+            products = productDao.getSearchItemsByDateNewToOld(f_value.toLowerCase(),ctg_id,minPrice,maxPrice,start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s5"))
+            products = productDao.getSearchItemsByDateOldToNew(f_value.toLowerCase(),ctg_id,minPrice,maxPrice,start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s6"))
+            products = productDao.getSearchItemsByBestSelling(f_value.toLowerCase(),ctg_id,minPrice,maxPrice,start).orElse(Arrays.asList());
+        else
+            products = productDao.getItemsBySearch(f_value.toLowerCase(),ctg_id,minPrice,maxPrice,start).orElse(Arrays.asList());
+
+        LOGGER.error(String.format("search filter list is returned with page %d",page));
+
+        List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
+                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+
+        long numOfItems = productDao.getNumOfSearchItems(f_value.toLowerCase(),ctg_id,minPrice,maxPrice);
+
+        return new ProductListResponse(productResponses,numOfItems);
     }
 }

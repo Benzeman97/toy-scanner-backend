@@ -48,32 +48,86 @@ public class ProductController {
 
     @GetMapping(value = "/new-offer-list",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ProductListResponse> getNewOfferItemList(@RequestParam("page") int page){
-        return new ResponseEntity<>(productService.getNewOfferItemList(page),HttpStatus.OK);
+        return (page<=0) ?
+                new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
+                new ResponseEntity<>(productService.getNewOfferItemList(page),HttpStatus.OK);
     }
 
     @GetMapping(value = "/under-25-list",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ProductListResponse> getUnder25ItemList(@RequestParam("page") int page){
-        return new ResponseEntity<>(productService.getUnder25ItemList(page),HttpStatus.OK);
+        return (page<=0) ?
+                new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
+                new ResponseEntity<>(productService.getUnder25ItemList(page),HttpStatus.OK);
     }
 
     @GetMapping(value = "/new-release-list",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ProductListResponse> getNewReleaseItemList(@RequestParam("page") int page){
-        return new ResponseEntity<>(productService.getNewReleaseItemList(page),HttpStatus.OK);
+        return (page<=0) ?
+                new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
+             new ResponseEntity<>(productService.getNewReleaseItemList(page),HttpStatus.OK);
     }
 
     @GetMapping(value = "/best-selling-list",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ProductListResponse> getBestSellingItemList(@RequestParam("page") int page){
-        return new ResponseEntity<>(productService.getBestSellingItemList(page),HttpStatus.OK);
+        return (page<=0) ?
+                new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
+                new ResponseEntity<>(productService.getBestSellingItemList(page),HttpStatus.OK);
     }
 
     @GetMapping(value = "/list-by-brand",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ProductListResponse> getItemsByBrand(@RequestParam("name") String name, @RequestParam("page") int page){
-        return new ResponseEntity<>(productService.getItemsByBrand(name,page),HttpStatus.OK);
+        return (name.trim().isEmpty() || page<=0) ?
+                new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
+            new ResponseEntity<>(productService.getItemsByBrand(name,page),HttpStatus.OK);
     }
 
     @GetMapping(value = "/list-by-search",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ProductListResponse> getItemsBySearch(@RequestParam("f_value") String f_value,@RequestParam("ctg_id") int ctg_id,@RequestParam("price") String price, @RequestParam("page") int page){
-        return new ResponseEntity<>(productService.getItemsBySearch(f_value,ctg_id,price,page),HttpStatus.OK);
+        return (f_value.trim().isEmpty() || ctg_id<=0 || price.trim().isEmpty() || page<=0) ?
+                new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
+                new ResponseEntity<>(productService.getItemsBySearch(f_value,ctg_id,price,page),HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/new-offer-sort",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ProductListResponse> getOffersBySort(@RequestParam("sort") String sort, @RequestParam("page") int page){
+        return (sort.trim().isEmpty() || page<=0) ?
+                new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
+                new ResponseEntity<>(productService.getOffersByFilter(sort,page),HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/under25-sort",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ProductListResponse> getUnder25BySort(@RequestParam("sort") String sort, @RequestParam("page") int page){
+        return (sort.trim().isEmpty() || page<=0) ?
+                new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
+                new ResponseEntity<>(productService.getUnder25ByFilter(sort,page),HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/new-release-sort",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ProductListResponse> getReleasesBySort(@RequestParam("sort") String sort, @RequestParam("page") int page){
+        return (sort.trim().isEmpty() || page<=0) ?
+                new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
+                new ResponseEntity<>(productService.getReleasesByFilter(sort,page),HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/best-selling-sort",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ProductListResponse> getBestSellingBySort(@RequestParam("sort") String sort, @RequestParam("page") int page){
+        return (sort.trim().isEmpty() || page<=0) ?
+                new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
+                new ResponseEntity<>(productService.getBestSellingByFilter(sort,page),HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/brand-item-sort",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ProductListResponse> getBrandItemsBySort(@RequestParam("sort") String sort, @RequestParam("brand") String name, @RequestParam("page") int page){
+        return (sort.trim().isEmpty() || name.trim().isEmpty() || page<=0) ?
+                new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
+                new ResponseEntity<>(productService.getBrandItemsByFilter(sort,name,page),HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/search-item-sort",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ProductListResponse> getSearchItemsBySort(@RequestParam("sort") String sort, @RequestParam("f_value") String f_value,@RequestParam("ctg_id") int ctg_id,@RequestParam("price") String price, @RequestParam("page") int page){
+        return (sort.trim().isEmpty() || f_value.trim().isEmpty() || ctg_id<=0 || price.trim().isEmpty() || page<=0) ?
+                new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
+                new ResponseEntity<>(productService.getSearchItemsByFilter(sort,f_value,ctg_id,price,page),HttpStatus.OK);
     }
 
 }

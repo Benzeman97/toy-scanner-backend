@@ -27,7 +27,16 @@ public interface ProductService {
 
     List<Product> getProductsByDealId(int id);
 
+    ProductListResponse getOffersByFilter(String filter,int page);
 
-    ProductListResponse getOffersByFilter();
+    ProductListResponse getUnder25ByFilter(String filter,int page);
+
+    ProductListResponse getReleasesByFilter(String filter,int page);
+
+    ProductListResponse getBestSellingByFilter(String filter,int page);
+
+    ProductListResponse getBrandItemsByFilter(String filter,String brandName,int page);
+
+    ProductListResponse getSearchItemsByFilter(String filter,String f_value,int ctg_id,String value,int page);
 
 }
