@@ -36,7 +36,7 @@ public class BrandAdminController {
         return new ResponseEntity<>(brandAdminService.getBrandByName(name), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/save",produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE},consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<BrandAdminResponse> saveProduct(@RequestBody BrandRequest request) throws ParseException {
         return (request.getBrandName().trim().isEmpty()) ?
                 new ResponseEntity<>(HttpStatus.BAD_REQUEST) :

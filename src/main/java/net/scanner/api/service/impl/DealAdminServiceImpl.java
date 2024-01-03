@@ -34,9 +34,11 @@ public class DealAdminServiceImpl implements DealAdminService {
         Deal deal = dealDao.findById(id)
                 .orElse(new Deal());
 
+        int dealId = Objects.isNull(deal.getDealName()) ? (dealDao.getLastDeal().getDealId()+1) : deal.getDealId();
+
         LOGGER.info(String.format("deal is returned with %d",id));
 
-        return new DealResponse(deal.getDealId(),deal.getDealName(),deal.getDealType());
+        return new DealResponse(dealId,deal.getDealName(),deal.getDealType());
     }
 
     @Override
@@ -45,9 +47,11 @@ public class DealAdminServiceImpl implements DealAdminService {
         Deal deal = dealDao.getDealByName(name.toLowerCase())
                 .orElse(new Deal());
 
+        int dealId = Objects.isNull(deal.getDealName()) ? (dealDao.getLastDeal().getDealId()+1) : deal.getDealId();
+
         LOGGER.info(String.format("deal is returned with %s",name));
 
-        return new DealResponse(deal.getDealId(),deal.getDealName(),deal.getDealType());
+        return new DealResponse(dealId,deal.getDealName(),deal.getDealType());
     }
 
     @Override
@@ -56,7 +60,12 @@ public class DealAdminServiceImpl implements DealAdminService {
         Deal deal = dealDao.getDealByName(request.getDealName())
                 .orElse(new Deal());
 
+        if(Objects.isNull(deal.getDealName()))
+            deal.setDealId((dealDao.getLastDeal().getDealId()+1));
+
+
         deal.setDealName(request.getDealName());
+        deal.setDealType(request.getDealType());
         deal.setLaunchedDate(LocalDateTime.now());
 
         deal = dealDao.save(deal);

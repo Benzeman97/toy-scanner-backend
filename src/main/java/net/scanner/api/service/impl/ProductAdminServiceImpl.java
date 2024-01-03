@@ -1,6 +1,5 @@
 package net.scanner.api.service.impl;
 
-import net.scanner.api.dao.BrandDao;
 import net.scanner.api.dao.ProductDao;
 import net.scanner.api.dto.request.ProductRequest;
 import net.scanner.api.dto.response.ProductAdminResponse;
@@ -16,6 +15,7 @@ import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,9 +39,11 @@ public class ProductAdminServiceImpl implements ProductAdminService {
 
         LOGGER.info(String.format("product is returned with %d",id));
 
-        return new ProductResponse(product.getProductId(), product.getProductName(), product.getPrice(), product.getPrevPrice(),
+        int productId = Objects.isNull(product.getProductName()) ? (productDao.getLastProduct().getProductId()+1) : product.getProductId();
+
+        return new ProductResponse(productId, product.getProductName(), product.getPrice(), product.getPrevPrice(),
                 product.getDiscount(), product.getDiscountPercentage(),product.getMaterial(),product.getShippingCountry(),
-                product.getOfferExpDate(), product.getProductImg(),product.getBrandImg(), product.getPlatformImg(), product.getBrandName(),
+                gerOfferEndDate(product.getOfferExpDate()), product.getProductImg(),product.getBrandImg(), product.getPlatformImg(), product.getBrandName(),
                 product.getPlatformUrl(),product.getPlatform(), product.getItemUrl(), product.getOfferType(), product.getSellingRate(),
                 product.getForValue(),product.getCategoryId(),product.getDealId());
 
@@ -55,11 +57,21 @@ public class ProductAdminServiceImpl implements ProductAdminService {
 
         LOGGER.info(String.format("product is returned with %s",name));
 
-        return new ProductResponse(product.getProductId(), product.getProductName(), product.getPrice(), product.getPrevPrice(),
+        int productId = Objects.isNull(product.getProductName()) ? (productDao.getLastProduct().getProductId()+1) : product.getProductId();
+
+        return new ProductResponse(productId, product.getProductName(), product.getPrice(), product.getPrevPrice(),
                 product.getDiscount(), product.getDiscountPercentage(),product.getMaterial(),product.getShippingCountry(),
-                product.getOfferExpDate(), product.getProductImg(),product.getBrandImg(), product.getPlatformImg(), product.getBrandName(),
+                gerOfferEndDate(product.getOfferExpDate()), product.getProductImg(),product.getBrandImg(), product.getPlatformImg(), product.getBrandName(),
                 product.getPlatformUrl(),product.getPlatform(), product.getItemUrl(), product.getOfferType(), product.getSellingRate(),
                 product.getForValue(),product.getCategoryId(),product.getDealId());
+    }
+
+    private String gerOfferEndDate(LocalDateTime dateTime){
+
+        if(Objects.isNull(dateTime))
+            return null;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
+        return dateTime.format(formatter);
     }
 
     @Override
@@ -96,8 +108,11 @@ public class ProductAdminServiceImpl implements ProductAdminService {
 
     private Product setProduct(Product product,ProductRequest request) throws ParseException {
 
-        if(Objects.isNull(product.getProductId()))
+
+        if(Objects.isNull(product.getProductName())) {
+            product.setProductId((productDao.getLastProduct().getProductId())+1);
             product.setInsertedDate(LocalDateTime.now());
+        }
 
          product.setProductName(request.getProductName());
          product.setPrice(request.getPrice());
@@ -140,34 +155,43 @@ public class ProductAdminServiceImpl implements ProductAdminService {
 
     private LocalDateTime getOfferEndDate(String date) throws ParseException {
 
-        SimpleDateFormat inputDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+        Date date_ = dateFormat.parse(date);
 
-        Date inputDate = inputDateFormat.parse(date);
+        LocalDateTime dateTime = LocalDateTime.ofInstant(date_.toInstant(), ZoneId.systemDefault())
+                .withHour(23)
+                .withMinute(59)
+                .withSecond(59);
 
-        Map<String, String> monthAbbreviationMap = new HashMap<>();
-        monthAbbreviationMap.put("Jan", "January");
-        monthAbbreviationMap.put("Feb", "February");
-        monthAbbreviationMap.put("Mar", "March");
-        monthAbbreviationMap.put("Apr", "April");
-        monthAbbreviationMap.put("May", "May");
-        monthAbbreviationMap.put("Jun", "June");
-        monthAbbreviationMap.put("Jul", "July");
-        monthAbbreviationMap.put("Aug", "August");
-        monthAbbreviationMap.put("Sep", "September");
-        monthAbbreviationMap.put("Oct", "October");
-        monthAbbreviationMap.put("Nov", "November");
-        monthAbbreviationMap.put("Dec", "December");
-
-        SimpleDateFormat outputDateFormat = new SimpleDateFormat("MMMM dd, yyyy HH:mm:ss");
-        String monthAbbreviation = new SimpleDateFormat("MMM").format(inputDate);
-        String fullMonthName = monthAbbreviationMap.get(monthAbbreviation);
-        String outputDateString = outputDateFormat.format(inputDate).replace(monthAbbreviation, fullMonthName);
-
-        outputDateString = outputDateString.replace("00:00:00", "23:59:59");
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy HH:mm:ss");
-
-        return LocalDateTime.parse(outputDateString, formatter);
+        return dateTime;
+//        SimpleDateFormat inputDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+//
+//        Date inputDate = inputDateFormat.parse(date);
+//
+//        Map<String, String> monthAbbreviationMap = new HashMap<>();
+//        monthAbbreviationMap.put("Jan", "January");
+//        monthAbbreviationMap.put("Feb", "February");
+//        monthAbbreviationMap.put("Mar", "March");
+//        monthAbbreviationMap.put("Apr", "April");
+//        monthAbbreviationMap.put("May", "May");
+//        monthAbbreviationMap.put("Jun", "June");
+//        monthAbbreviationMap.put("Jul", "July");
+//        monthAbbreviationMap.put("Aug", "August");
+//        monthAbbreviationMap.put("Sep", "September");
+//        monthAbbreviationMap.put("Oct", "October");
+//        monthAbbreviationMap.put("Nov", "November");
+//        monthAbbreviationMap.put("Dec", "December");
+//
+//        SimpleDateFormat outputDateFormat = new SimpleDateFormat("MMMM dd, yyyy HH:mm:ss");
+//        String monthAbbreviation = new SimpleDateFormat("MMM").format(inputDate);
+//        String fullMonthName = monthAbbreviationMap.get(monthAbbreviation);
+//        String outputDateString = outputDateFormat.format(inputDate).replace(monthAbbreviation, fullMonthName);
+//
+//        outputDateString = outputDateString.replace("00:00:00", "23:59:59");
+//
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy HH:mm:ss");
+//
+//        return LocalDateTime.parse(outputDateString, formatter);
 
     }
 
@@ -201,6 +225,8 @@ public class ProductAdminServiceImpl implements ProductAdminService {
         return products;
 
     }
+
+
 
 
 }

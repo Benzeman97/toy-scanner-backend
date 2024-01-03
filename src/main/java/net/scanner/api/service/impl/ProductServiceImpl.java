@@ -12,9 +12,12 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,10 +53,18 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductResponse> productResponses = products.parallelStream().limit(6).map(p->new ProductResponse(p.getProductId(),p.getProductName(),
                 p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
-                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
                 p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
         return productResponses;
+    }
+
+    private String gerOfferEndDate(LocalDateTime dateTime){
+
+        if(Objects.isNull(dateTime))
+            return null;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy HH:mm:ss");
+        return dateTime.format(formatter);
     }
 
     @Override
@@ -72,7 +83,7 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductResponse> productResponses = products.parallelStream().limit(6).map(p->new ProductResponse(p.getProductId(),p.getProductName(),
                 p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
-                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
                 p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
         return productResponses;
@@ -94,7 +105,7 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductResponse> productResponses = products.parallelStream().limit(6).map(p->new ProductResponse(p.getProductId(),p.getProductName(),
                 p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
-                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
                 p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
         return productResponses;
@@ -116,7 +127,7 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductResponse> productResponses = products.parallelStream().limit(6).map(p->new ProductResponse(p.getProductId(),p.getProductName(),
                 p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
-                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
                 p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
         return productResponses;
@@ -138,7 +149,7 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductResponse> productResponses = products.parallelStream().limit(6).map(p->new ProductResponse(p.getProductId(),p.getProductName(),
                 p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
-                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
                 p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
         return productResponses;
@@ -167,7 +178,7 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
                 p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
-                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
                 p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
         long numOfItems = productDao.getNumOfNewOfferItems();
@@ -198,7 +209,7 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
                 p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
-                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
                 p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
         long numOfItems = productDao.getNumOfUnder25Items();
@@ -229,7 +240,7 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
                 p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
-                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
                 p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
         long numOfItems = productDao.getNumOfNewReleaseItems();
@@ -260,7 +271,7 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
                 p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
-                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
                 p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getProductId(),p.getDealId())).collect(Collectors.toList());
 
         long numOfItems = productDao.getNumOfItems();
@@ -291,7 +302,7 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
                 p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
-                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
                 p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
         long numOfItems = productDao.getNumOfBrandItems(name.toLowerCase());
@@ -359,7 +370,7 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
                 p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
-                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
                 p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
         long numOfItems = productDao.getNumOfSearchItems(f_value.toLowerCase(),ctg_id,minPrice,maxPrice);
@@ -412,8 +423,9 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
                 p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
-                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
                 p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+
 
         long numOfItems = productDao.getNumOfNewOfferItems();
 
@@ -452,8 +464,9 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
                 p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
-                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
                 p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+
 
         long numOfItems = productDao.getNumOfUnder25Items();
 
@@ -491,8 +504,9 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
                 p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
-                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
                 p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+
 
         long numOfItems = productDao.getNumOfNewReleaseItems();
 
@@ -528,8 +542,9 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
                 p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
-                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
                 p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+
 
         long numOfItems = productDao.getNumOfItems();
 
@@ -567,7 +582,7 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
                 p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
-                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
                 p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
         long numOfItems = productDao.getNumOfBrandItems(brandName.toLowerCase());
@@ -642,11 +657,30 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
                 p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
-                p.getOfferExpDate(),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
                 p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+
 
         long numOfItems = productDao.getNumOfSearchItems(f_value.toLowerCase(),ctg_id,minPrice,maxPrice);
 
         return new ProductListResponse(productResponses,numOfItems);
     }
+
+    @Override
+    public void closeOffer(int prodId) {
+
+          Product product = productDao.findById(prodId)
+                  .orElseThrow(()->{
+                      LOGGER.error(String.format("product is not found with %d",prodId));
+                      throw new DataNotFoundException(String.format("product is not found with %d",prodId));
+                  });
+
+          product.setOfferType("general");
+
+        LOGGER.error(String.format("product is set to general with %d",prodId));
+
+          productDao.save(product);
+
+    }
+
 }

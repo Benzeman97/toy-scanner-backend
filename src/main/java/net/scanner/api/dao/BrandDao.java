@@ -17,4 +17,7 @@ public interface BrandDao extends JpaRepository<Brand,Integer> {
 
     @Query("from Brand b order by b.brandName asc")
     Optional<List<Brand>> getBrandList();
+
+    @Query(value = "select * from brand b order by b.brand_id desc limit 1",nativeQuery = true)
+    Brand getLastBrand();
 }

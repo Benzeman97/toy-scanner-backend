@@ -54,7 +54,7 @@ public interface ProductDao extends JpaRepository<Product,Integer> {
     @Query(value = "select count(*) from product",nativeQuery = true)
     long getNumOfItems();
 
-    @Query(value = "select * from deal d where d.deal_id=:id limit 6",nativeQuery = true)
+    @Query(value = "select * from product d where d.deal_id=:id limit 6",nativeQuery = true)
     Optional<List<Product>> getProductByDealId(@Param("id") int id);
 
     @Query(value = "select count(*) product p where p.offer_type='offer'",nativeQuery = true)
@@ -155,4 +155,6 @@ public interface ProductDao extends JpaRepository<Product,Integer> {
     @Query(value = "select * from product p where lower(p.for_value) = :forValue and p.category_id = :ctgId and p.price >= :minPrice and p.price <= :maxPrice order by p.selling_rate desc limit 16 offset :offset",nativeQuery = true)
     Optional<List<Product>> getSearchItemsByBestSelling(@Param("forValue") String forValue, @Param("ctgId") int ctgId, @Param("minPrice") BigDecimal minPrice, @Param("maxPrice") BigDecimal maxPrice, @Param("offset") int offset);
 
+    @Query(value = "select * from product p order by p.inserted_date desc limit 1",nativeQuery = true)
+    Product getLastProduct();
 }

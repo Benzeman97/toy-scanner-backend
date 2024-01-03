@@ -18,4 +18,7 @@ public interface DealDao extends JpaRepository<Deal,Integer> {
     @Query(value = "select * from deal d order by d.launched_date desc limit 4",nativeQuery = true)
     List<Deal> getDeals();
 
+    @Query(value = "select * from deal d order by d.deal_id desc limit 1",nativeQuery = true)
+    Deal getLastDeal();
+
 }

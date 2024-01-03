@@ -23,7 +23,7 @@ public class ProductResponse implements Serializable {
     private Integer discountPercentage;
     private String material;
     private String shippingCountry;
-    private LocalDateTime offerExpDate;
+    private String offerExpDate;
     private String productImg;
     private String brandImg;
     private String platformImg;

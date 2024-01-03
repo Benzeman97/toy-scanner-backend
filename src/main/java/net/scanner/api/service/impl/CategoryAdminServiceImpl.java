@@ -31,9 +31,11 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
         Category category = categoryDao.findById(id)
                 .orElse(new Category());
 
+        int ctgId = Objects.isNull(category.getCtgName()) ? (categoryDao.getLastCategory().getCtgId()+1) : category.getCtgId();
+
         LOGGER.info(String.format("category is returned with %d",id));
 
-        return new CategoryResponse(category.getCtgId(),category.getCtgName());
+        return new CategoryResponse(ctgId,category.getCtgName());
 
     }
 
@@ -43,9 +45,11 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
         Category category = categoryDao.getCategoryByName(name.toLowerCase())
                 .orElse(new Category());
 
+        int ctgId = Objects.isNull(category.getCtgName()) ? (categoryDao.getLastCategory().getCtgId()+1) : category.getCtgId();
+
         LOGGER.info(String.format("category is returned with %s",name));
 
-        return new CategoryResponse(category.getCtgId(),category.getCtgName());
+        return new CategoryResponse(ctgId,category.getCtgName());
 
     }
 
@@ -54,6 +58,9 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
 
         Category category = categoryDao.getCategoryByName(request.getCtgName().toLowerCase())
                 .orElse(new Category());
+
+        if(Objects.isNull(category.getCtgName()))
+            category.setCtgId((categoryDao.getLastCategory().getCtgId()+1));
 
         category.setCtgName(request.getCtgName());
 

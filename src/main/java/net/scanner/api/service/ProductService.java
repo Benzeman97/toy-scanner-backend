@@ -39,4 +39,5 @@ public interface ProductService {
 
     ProductListResponse getSearchItemsByFilter(String filter,String f_value,int ctg_id,String value,int page);
 
+    void closeOffer(int prodId);
 }

@@ -21,6 +21,11 @@ public class ProductController {
         this.productService=productService;
     }
 
+    @GetMapping(value = "/close-offer/{id}",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public void getNewOfferItems(@PathVariable int id){
+         productService.closeOffer(id);
+    }
+
     @GetMapping(value = "/new-offers",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<ProductResponse>> getNewOfferItems(){
         return new ResponseEntity<>(productService.getNewOfferItems(), HttpStatus.OK);

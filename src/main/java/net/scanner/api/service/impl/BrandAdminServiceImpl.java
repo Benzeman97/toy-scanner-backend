@@ -32,9 +32,11 @@ public class BrandAdminServiceImpl implements BrandAdminService {
         Brand brand = brandDao.findById(id)
                 .orElse(new Brand());
 
+        int brandId = Objects.isNull(brand.getBrandName()) ? (brandDao.getLastBrand().getBrandId()+1) : brand.getBrandId();
+
         LOGGER.info(String.format("brand is returned with %d",id));
 
-        return new BrandResponse(brand.getBrandId(),brand.getBrandName(),brand.getBrandImg());
+        return new BrandResponse(brandId,brand.getBrandName(),brand.getBrandImg());
 
     }
 
@@ -44,9 +46,11 @@ public class BrandAdminServiceImpl implements BrandAdminService {
         Brand brand = brandDao.getBrandByName(name.toLowerCase())
                 .orElse(new Brand());
 
+        int brandId = Objects.isNull(brand.getBrandName()) ? (brandDao.getLastBrand().getBrandId()+1) : brand.getBrandId();
+
         LOGGER.info(String.format("brand is returned with %s",name));
 
-        return new BrandResponse(brand.getBrandId(),brand.getBrandName(),brand.getBrandImg());
+        return new BrandResponse(brandId,brand.getBrandName(),brand.getBrandImg());
     }
 
     @Override
@@ -54,6 +58,9 @@ public class BrandAdminServiceImpl implements BrandAdminService {
 
         Brand brand = brandDao.getBrandByName(request.getBrandName().toLowerCase())
                 .orElse(new Brand());
+
+        if(Objects.isNull(brand.getBrandName()))
+            brand.setBrandId((brandDao.getLastBrand().getBrandId()+1));
 
         brand.setBrandName(request.getBrandName());
         brand.setBrandImg(request.getBrandImg());

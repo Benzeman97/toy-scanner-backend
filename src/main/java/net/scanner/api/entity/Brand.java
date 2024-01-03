@@ -12,7 +12,7 @@ import java.util.Objects;
 @Setter
 public class Brand {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "brand_id")
     private int brandId;

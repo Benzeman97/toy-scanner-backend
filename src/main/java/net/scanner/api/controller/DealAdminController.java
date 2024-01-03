@@ -37,7 +37,7 @@ public class DealAdminController {
         return new ResponseEntity<>(dealAdminService.getDealByName(name), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/save",produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE},consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<DealAdminResponse> saveDeal(@RequestBody DealRequest request) throws ParseException {
         return (request.getDealName().trim().isEmpty()) ?
                 new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
