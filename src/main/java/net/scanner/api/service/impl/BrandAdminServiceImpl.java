@@ -59,9 +59,10 @@ public class BrandAdminServiceImpl implements BrandAdminService {
         Brand brand = brandDao.getBrandByName(request.getBrandName().toLowerCase())
                 .orElse(new Brand());
 
-        if(Objects.isNull(brand.getBrandName()))
-            brand.setBrandId((brandDao.getLastBrand().getBrandId()+1));
+//        if(Objects.isNull(brand.getBrandName()))
+//            brand.setBrandId((brandDao.getLastBrand().getBrandId()+1));
 
+        brand.setBrandId(request.getBrandId());
         brand.setBrandName(request.getBrandName());
         brand.setBrandImg(request.getBrandImg());
 

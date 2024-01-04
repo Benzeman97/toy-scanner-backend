@@ -39,7 +39,7 @@ public class ProductAdminServiceImpl implements ProductAdminService {
 
         LOGGER.info(String.format("product is returned with %d",id));
 
-        int productId = Objects.isNull(product.getProductName()) ? (productDao.getLastProduct().getProductId()+1) : product.getProductId();
+        int productId = Objects.isNull(product.getProductName()) ? ((productDao.getLastProduct().getProductId())+1) : product.getProductId();
 
         return new ProductResponse(productId, product.getProductName(), product.getPrice(), product.getPrevPrice(),
                 product.getDiscount(), product.getDiscountPercentage(),product.getMaterial(),product.getShippingCountry(),
@@ -57,7 +57,7 @@ public class ProductAdminServiceImpl implements ProductAdminService {
 
         LOGGER.info(String.format("product is returned with %s",name));
 
-        int productId = Objects.isNull(product.getProductName()) ? (productDao.getLastProduct().getProductId()+1) : product.getProductId();
+        int productId = Objects.isNull(product.getProductName()) ? ((productDao.getLastProduct().getProductId())+1) : product.getProductId();
 
         return new ProductResponse(productId, product.getProductName(), product.getPrice(), product.getPrevPrice(),
                 product.getDiscount(), product.getDiscountPercentage(),product.getMaterial(),product.getShippingCountry(),
@@ -110,10 +110,10 @@ public class ProductAdminServiceImpl implements ProductAdminService {
 
 
         if(Objects.isNull(product.getProductName())) {
-            product.setProductId((productDao.getLastProduct().getProductId())+1);
             product.setInsertedDate(LocalDateTime.now());
         }
 
+         product.setProductId(request.getProductId());
          product.setProductName(request.getProductName());
          product.setPrice(request.getPrice());
          product.setPrevPrice(request.getPrevPrice());

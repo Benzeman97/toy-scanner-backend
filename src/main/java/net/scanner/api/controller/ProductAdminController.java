@@ -34,7 +34,7 @@ public class ProductAdminController {
 
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE},consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ProductAdminResponse> saveProduct(@RequestBody ProductRequest request) throws ParseException {
-        return (request.getProductName().trim().isEmpty() || request.getItemUrl().trim().isEmpty()) ?
+        return (request.getProductId()<=0 || request.getProductName().trim().isEmpty() || request.getItemUrl().trim().isEmpty() || request.getCtgId()<=0) ?
                 new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
            new ResponseEntity<>(productAdminService.saveProduct(request), HttpStatus.OK);
     }

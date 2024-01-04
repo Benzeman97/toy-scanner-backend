@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 @Setter
 public class ProductRequest implements Serializable {
 
+    private int productId;
     private String productName;
     private BigDecimal price;
     private BigDecimal prevPrice;

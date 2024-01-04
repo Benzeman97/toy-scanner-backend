@@ -37,7 +37,7 @@ public class CategoryAdminController {
 
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE},consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<CategoryAdminResponse> saveCategory(@RequestBody CategoryRequest request) throws ParseException {
-        return (request.getCtgName().trim().isEmpty()) ?
+        return (request.getCtgId()<=0 || request.getCtgName().trim().isEmpty()) ?
                 new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
                 new ResponseEntity<>(categoryAdminService.saveCategory(request), HttpStatus.OK);
     }

@@ -59,9 +59,10 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
         Category category = categoryDao.getCategoryByName(request.getCtgName().toLowerCase())
                 .orElse(new Category());
 
-        if(Objects.isNull(category.getCtgName()))
-            category.setCtgId((categoryDao.getLastCategory().getCtgId()+1));
+//        if(Objects.isNull(category.getCtgName()))
+//            category.setCtgId((categoryDao.getLastCategory().getCtgId()+1));
 
+        category.setCtgId(request.getCtgId());
         category.setCtgName(request.getCtgName());
 
         category = categoryDao.save(category);
