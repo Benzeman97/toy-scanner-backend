@@ -23,7 +23,7 @@ public interface ProductService {
 
     ProductListResponse getItemsByBrand(String name,int page);
 
-    ProductListResponse getItemsBySearch(String f_value,int ctg_id,String value,int page);
+    ProductListResponse getItemsBySearch(String f_value,String ctg_name,String value,int page);
 
     List<Product> getProductsByDealId(int id);
 
@@ -37,7 +37,13 @@ public interface ProductService {
 
     ProductListResponse getBrandItemsByFilter(String filter,String brandName,int page);
 
-    ProductListResponse getSearchItemsByFilter(String filter,String f_value,int ctg_id,String value,int page);
+    ProductListResponse getSearchItemsByFilter(String filter,String f_value,String ctg_name,String value,int page);
 
     void closeOffer(int prodId);
+
+    ProductListResponse getProductsByCategory(String ctg,int page);
+
+    ProductListResponse getProductByCategoryFilter(String ctg,String filter,int page);
+
+    List<Product> getProductListByCategory(int ctgId);
 }

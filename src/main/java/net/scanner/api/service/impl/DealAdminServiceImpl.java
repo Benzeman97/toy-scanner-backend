@@ -38,7 +38,7 @@ public class DealAdminServiceImpl implements DealAdminService {
 
         LOGGER.info(String.format("deal is returned with %d",id));
 
-        return new DealResponse(dealId,deal.getDealName(),deal.getDealType());
+        return new DealResponse(id,deal.getDealName(),deal.getDealType());
     }
 
     @Override
@@ -51,7 +51,7 @@ public class DealAdminServiceImpl implements DealAdminService {
 
         LOGGER.info(String.format("deal is returned with %s",name));
 
-        return new DealResponse(dealId,deal.getDealName(),deal.getDealType());
+        return new DealResponse(dealId,name,deal.getDealType());
     }
 
     @Override

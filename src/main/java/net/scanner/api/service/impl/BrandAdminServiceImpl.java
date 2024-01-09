@@ -36,7 +36,7 @@ public class BrandAdminServiceImpl implements BrandAdminService {
 
         LOGGER.info(String.format("brand is returned with %d",id));
 
-        return new BrandResponse(brandId,brand.getBrandName(),brand.getBrandImg());
+        return new BrandResponse(id,brand.getBrandName(),brand.getBrandImg());
 
     }
 
@@ -50,7 +50,7 @@ public class BrandAdminServiceImpl implements BrandAdminService {
 
         LOGGER.info(String.format("brand is returned with %s",name));
 
-        return new BrandResponse(brandId,brand.getBrandName(),brand.getBrandImg());
+        return new BrandResponse(brandId,name,brand.getBrandImg());
     }
 
     @Override

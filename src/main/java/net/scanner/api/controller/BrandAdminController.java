@@ -31,8 +31,8 @@ public class BrandAdminController {
         return new ResponseEntity<>(brandAdminService.getBrandById(id), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/find",produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<BrandResponse> getBrandByName(@RequestParam("name") String name){
+    @GetMapping(value = "/find/{name}",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<BrandResponse> getBrandByName(@PathVariable("name") String name){
         return new ResponseEntity<>(brandAdminService.getBrandByName(name), HttpStatus.OK);
     }
 

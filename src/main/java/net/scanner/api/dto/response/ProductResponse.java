@@ -17,10 +17,10 @@ public class ProductResponse implements Serializable {
 
     private int productId;
     private String productName;
-    private BigDecimal price;
-    private BigDecimal prevPrice;
-    private BigDecimal discount;
-    private Integer discountPercentage;
+    private String price;
+    private String prevPrice;
+    private String discount;
+    private int discountPercentage;
     private String material;
     private String shippingCountry;
     private String offerExpDate;
@@ -32,7 +32,7 @@ public class ProductResponse implements Serializable {
     private String platform;
     private String itemUrl;
     private String offerType;
-    private BigDecimal sellingRate;
+    private String sellingRate;
     private String forValue;
     private int ctgId;
     private int dealId;

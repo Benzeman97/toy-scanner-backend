@@ -41,10 +41,10 @@ public class ProductAdminServiceImpl implements ProductAdminService {
 
         int productId = Objects.isNull(product.getProductName()) ? ((productDao.getLastProduct().getProductId())+1) : product.getProductId();
 
-        return new ProductResponse(productId, product.getProductName(), product.getPrice(), product.getPrevPrice(),
-                product.getDiscount(), product.getDiscountPercentage(),product.getMaterial(),product.getShippingCountry(),
+        return new ProductResponse(id, product.getProductName(), product.getPrice().toString(), product.getPrevPrice().toString(),
+                product.getDiscount().toString(), product.getDiscountPercentage(),product.getMaterial(),product.getShippingCountry(),
                 gerOfferEndDate(product.getOfferExpDate()), product.getProductImg(),product.getBrandImg(), product.getPlatformImg(), product.getBrandName(),
-                product.getPlatformUrl(),product.getPlatform(), product.getItemUrl(), product.getOfferType(), product.getSellingRate(),
+                product.getPlatformUrl(),product.getPlatform(), product.getItemUrl(), product.getOfferType(), product.getSellingRate().toString(),
                 product.getForValue(),product.getCategoryId(),product.getDealId());
 
     }
@@ -59,10 +59,10 @@ public class ProductAdminServiceImpl implements ProductAdminService {
 
         int productId = Objects.isNull(product.getProductName()) ? ((productDao.getLastProduct().getProductId())+1) : product.getProductId();
 
-        return new ProductResponse(productId, product.getProductName(), product.getPrice(), product.getPrevPrice(),
-                product.getDiscount(), product.getDiscountPercentage(),product.getMaterial(),product.getShippingCountry(),
+        return new ProductResponse(productId, name, product.getPrice().toString(), product.getPrevPrice().toString(),
+                product.getDiscount().toString(), product.getDiscountPercentage(),product.getMaterial(),product.getShippingCountry(),
                 gerOfferEndDate(product.getOfferExpDate()), product.getProductImg(),product.getBrandImg(), product.getPlatformImg(), product.getBrandName(),
-                product.getPlatformUrl(),product.getPlatform(), product.getItemUrl(), product.getOfferType(), product.getSellingRate(),
+                product.getPlatformUrl(),product.getPlatform(), product.getItemUrl(), product.getOfferType(), product.getSellingRate().toString(),
                 product.getForValue(),product.getCategoryId(),product.getDealId());
     }
 
@@ -149,8 +149,10 @@ public class ProductAdminServiceImpl implements ProductAdminService {
 
         BigDecimal discountValue = prevPrice.subtract(price);
 
-        return discountValue.divide(prevPrice, 2, RoundingMode.UP)
-                .multiply(BigDecimal.valueOf(100)).intValue();
+        BigDecimal discountPercentage = discountValue.divide(prevPrice, 2, RoundingMode.HALF_UP)
+                .multiply(BigDecimal.valueOf(100));
+
+        return discountPercentage.setScale(0, RoundingMode.HALF_UP).intValue();
     }
 
     private LocalDateTime getOfferEndDate(String date) throws ParseException {

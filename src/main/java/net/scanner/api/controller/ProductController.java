@@ -86,11 +86,18 @@ public class ProductController {
             new ResponseEntity<>(productService.getItemsByBrand(name,page),HttpStatus.OK);
     }
 
-    @GetMapping(value = "/list-by-search",produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ProductListResponse> getItemsBySearch(@RequestParam("f_value") String f_value,@RequestParam("ctg_id") int ctg_id,@RequestParam("price") String price, @RequestParam("page") int page){
-        return (f_value.trim().isEmpty() || ctg_id<=0 || price.trim().isEmpty() || page<=0) ?
+    @GetMapping(value = "/list-by-category",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ProductListResponse> getProductsByCategory(@RequestParam("ctg") String name, @RequestParam("page") int page){
+        return (name.trim().isEmpty() || page<=0) ?
                 new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
-                new ResponseEntity<>(productService.getItemsBySearch(f_value,ctg_id,price,page),HttpStatus.OK);
+                new ResponseEntity<>(productService.getProductsByCategory(name,page),HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/list-by-search",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ProductListResponse> getItemsBySearch(@RequestParam("f_value") String f_value,@RequestParam("ctg") String ctg,@RequestParam("price") String price, @RequestParam("page") int page){
+        return (f_value.trim().isEmpty() || ctg.trim().isEmpty() || price.trim().isEmpty() || page<=0) ?
+                new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
+                new ResponseEntity<>(productService.getItemsBySearch(f_value,ctg,price,page),HttpStatus.OK);
     }
 
     @GetMapping(value = "/new-offer-sort",produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -129,10 +136,18 @@ public class ProductController {
     }
 
     @GetMapping(value = "/search-item-sort",produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ProductListResponse> getSearchItemsBySort(@RequestParam("sort") String sort, @RequestParam("f_value") String f_value,@RequestParam("ctg_id") int ctg_id,@RequestParam("price") String price, @RequestParam("page") int page){
-        return (sort.trim().isEmpty() || f_value.trim().isEmpty() || ctg_id<=0 || price.trim().isEmpty() || page<=0) ?
+    public ResponseEntity<ProductListResponse> getSearchItemsBySort(@RequestParam("sort") String sort, @RequestParam("f_value") String f_value,@RequestParam("ctg") String ctg,@RequestParam("price") String price, @RequestParam("page") int page){
+        return (sort.trim().isEmpty() || f_value.trim().isEmpty() || ctg.trim().isEmpty() || price.trim().isEmpty() || page<=0) ?
                 new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
-                new ResponseEntity<>(productService.getSearchItemsByFilter(sort,f_value,ctg_id,price,page),HttpStatus.OK);
+                new ResponseEntity<>(productService.getSearchItemsByFilter(sort,f_value,ctg,price,page),HttpStatus.OK);
     }
+
+    @GetMapping(value = "/category-item-sort",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ProductListResponse> getCategoryItemsBySort(@RequestParam("sort") String sort, @RequestParam("ctg") String name, @RequestParam("page") int page){
+        return (sort.trim().isEmpty() || name.trim().isEmpty() || page<=0) ?
+                new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
+                new ResponseEntity<>(productService.getProductByCategoryFilter(name,sort,page),HttpStatus.OK);
+    }
+
 
 }

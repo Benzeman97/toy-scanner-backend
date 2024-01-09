@@ -49,7 +49,7 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
 
         LOGGER.info(String.format("category is returned with %s",name));
 
-        return new CategoryResponse(ctgId,category.getCtgName());
+        return new CategoryResponse(ctgId,name);
 
     }
 

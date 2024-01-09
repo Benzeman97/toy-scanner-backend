@@ -5,6 +5,7 @@ import net.scanner.api.dto.response.ProductListResponse;
 import net.scanner.api.dto.response.ProductResponse;
 import net.scanner.api.entity.Product;
 import net.scanner.api.exceptional.DataNotFoundException;
+import net.scanner.api.service.CategoryService;
 import net.scanner.api.service.ProductService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,8 +34,11 @@ public class ProductServiceImpl implements ProductService {
 
     private ProductDao productDao;
 
-    public ProductServiceImpl(ProductDao productDao){
+    private CategoryService categoryService;
+
+    public ProductServiceImpl(ProductDao productDao,CategoryService categoryService){
        this.productDao=productDao;
+       this.categoryService=categoryService;
     }
 
     @Override
@@ -52,9 +56,9 @@ public class ProductServiceImpl implements ProductService {
         Collections.shuffle(products);
 
         List<ProductResponse> productResponses = products.parallelStream().limit(6).map(p->new ProductResponse(p.getProductId(),p.getProductName(),
-                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getPrice().toString(),p.getPrevPrice().toString(),p.getDiscount().toString(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
                 gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
-                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate().toString(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
         return productResponses;
     }
@@ -82,9 +86,9 @@ public class ProductServiceImpl implements ProductService {
         Collections.shuffle(products);
 
         List<ProductResponse> productResponses = products.parallelStream().limit(6).map(p->new ProductResponse(p.getProductId(),p.getProductName(),
-                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getPrice().toString(),p.getPrevPrice().toString(),p.getDiscount().toString(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
                 gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
-                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate().toString(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
         return productResponses;
     }
@@ -104,9 +108,9 @@ public class ProductServiceImpl implements ProductService {
         Collections.shuffle(products);
 
         List<ProductResponse> productResponses = products.parallelStream().limit(6).map(p->new ProductResponse(p.getProductId(),p.getProductName(),
-                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getPrice().toString(),p.getPrevPrice().toString(),p.getDiscount().toString(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
                 gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
-                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate().toString(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
         return productResponses;
     }
@@ -126,9 +130,9 @@ public class ProductServiceImpl implements ProductService {
         Collections.shuffle(products);
 
         List<ProductResponse> productResponses = products.parallelStream().limit(6).map(p->new ProductResponse(p.getProductId(),p.getProductName(),
-                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getPrice().toString(),p.getPrevPrice().toString(),p.getDiscount().toString(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
                 gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
-                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate().toString(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
         return productResponses;
     }
@@ -148,9 +152,9 @@ public class ProductServiceImpl implements ProductService {
         Collections.shuffle(products);
 
         List<ProductResponse> productResponses = products.parallelStream().limit(6).map(p->new ProductResponse(p.getProductId(),p.getProductName(),
-                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getPrice().toString(),p.getPrevPrice().toString(),p.getDiscount().toString(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
                 gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
-                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate().toString(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
         return productResponses;
     }
@@ -177,9 +181,9 @@ public class ProductServiceImpl implements ProductService {
         LOGGER.error(String.format("new offer list is returned with page %d",page));
 
         List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
-                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getPrice().toString(),p.getPrevPrice().toString(),p.getDiscount().toString(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
                 gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
-                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate().toString(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
         long numOfItems = productDao.getNumOfNewOfferItems();
 
@@ -208,9 +212,9 @@ public class ProductServiceImpl implements ProductService {
         LOGGER.error(String.format("under 25 list is returned with page %d",page));
 
         List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
-                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getPrice().toString(),p.getPrevPrice().toString(),p.getDiscount().toString(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
                 gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
-                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate().toString(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
         long numOfItems = productDao.getNumOfUnder25Items();
 
@@ -239,9 +243,9 @@ public class ProductServiceImpl implements ProductService {
         LOGGER.error(String.format("new release item list is returned with page %d",page));
 
         List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
-                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getPrice().toString(),p.getPrevPrice().toString(),p.getDiscount().toString(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
                 gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
-                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate().toString(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
         long numOfItems = productDao.getNumOfNewReleaseItems();
 
@@ -270,9 +274,9 @@ public class ProductServiceImpl implements ProductService {
         LOGGER.error(String.format("best selling item list is returned with page %d",page));
 
         List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
-                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getPrice().toString(),p.getPrevPrice().toString(),p.getDiscount().toString(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
                 gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
-                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getProductId(),p.getDealId())).collect(Collectors.toList());
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate().toString(),p.getForValue(),p.getProductId(),p.getDealId())).collect(Collectors.toList());
 
         long numOfItems = productDao.getNumOfItems();
 
@@ -301,9 +305,9 @@ public class ProductServiceImpl implements ProductService {
         LOGGER.error(String.format("%s item list is returned with page %d",name,page));
 
         List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
-                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getPrice().toString(),p.getPrevPrice().toString(),p.getDiscount().toString(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
                 gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
-                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate().toString(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
         long numOfItems = productDao.getNumOfBrandItems(name.toLowerCase());
 
@@ -312,8 +316,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Cacheable(key = "{#f_value,#ctg_id,#value,#page,#root.methodName}",value = "SCANNER")
-    public ProductListResponse getItemsBySearch(String f_value, int ctg_id, String value, int page) {
+    @Cacheable(key = "{#f_value,#ctg_name,#value,#page,#root.methodName}",value = "SCANNER")
+    public ProductListResponse getItemsBySearch(String f_value, String ctg_name, String value, int page) {
 
         int itemPerPage = 16;
 
@@ -360,6 +364,8 @@ public class ProductServiceImpl implements ProductService {
                 break;
         }
 
+        int ctg_id = categoryService.getCategoryId(ctg_name);
+
         List<Product> products = productDao.getItemsBySearch(f_value.toLowerCase(),ctg_id,minPrice,maxPrice,start)
                 .orElseThrow(()->{
                     LOGGER.error(String.format("item list is empty"));
@@ -369,9 +375,9 @@ public class ProductServiceImpl implements ProductService {
         LOGGER.error(String.format("item list is returned with page %d",page));
 
         List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
-                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getPrice().toString(),p.getPrevPrice().toString(),p.getDiscount().toString(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
                 gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
-                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate().toString(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
         long numOfItems = productDao.getNumOfSearchItems(f_value.toLowerCase(),ctg_id,minPrice,maxPrice);
 
@@ -380,6 +386,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Cacheable(key = "{#id,#root.methodName}",value = "SCANNER")
     public List<Product> getProductsByDealId(int id){
 
         List<Product> products = productDao.getProductByDealId(id)
@@ -393,6 +400,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
+    @Cacheable(key = "{#filter,#page,#root.methodName}",value = "SCANNER")
     public ProductListResponse getOffersByFilter(String filter, int page) {
 
         int itemPerPage = 16;
@@ -422,9 +430,9 @@ public class ProductServiceImpl implements ProductService {
         LOGGER.error(String.format("new offer filter list is returned with page %d",page));
 
         List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
-                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getPrice().toString(),p.getPrevPrice().toString(),p.getDiscount().toString(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
                 gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
-                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate().toString(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
 
         long numOfItems = productDao.getNumOfNewOfferItems();
@@ -434,6 +442,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Cacheable(key = "{#filter,#page,#root.methodName}",value = "SCANNER")
     public ProductListResponse getUnder25ByFilter(String filter, int page) {
 
         int itemPerPage = 16;
@@ -463,9 +472,9 @@ public class ProductServiceImpl implements ProductService {
         LOGGER.error(String.format("under 25 filter list is returned with page %d",page));
 
         List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
-                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getPrice().toString(),p.getPrevPrice().toString(),p.getDiscount().toString(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
                 gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
-                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate().toString(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
 
         long numOfItems = productDao.getNumOfUnder25Items();
@@ -474,6 +483,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Cacheable(key = "{#filter,#page,#root.methodName}",value = "SCANNER")
     public ProductListResponse getReleasesByFilter(String filter, int page) {
 
         int itemPerPage = 16;
@@ -503,9 +513,9 @@ public class ProductServiceImpl implements ProductService {
         LOGGER.error(String.format("new release filter list is returned with page %d",page));
 
         List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
-                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getPrice().toString(),p.getPrevPrice().toString(),p.getDiscount().toString(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
                 gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
-                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate().toString(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
 
         long numOfItems = productDao.getNumOfNewReleaseItems();
@@ -514,6 +524,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Cacheable(key = "{#filter,#page,#root.methodName}",value = "SCANNER")
     public ProductListResponse getBestSellingByFilter(String filter, int page) {
 
         int itemPerPage = 16;
@@ -541,9 +552,9 @@ public class ProductServiceImpl implements ProductService {
         LOGGER.error(String.format("best selling filter list is returned with page %d",page));
 
         List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
-                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getPrice().toString(),p.getPrevPrice().toString(),p.getDiscount().toString(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
                 gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
-                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate().toString(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
 
         long numOfItems = productDao.getNumOfItems();
@@ -552,6 +563,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Cacheable(key = "{#filter,#brandName,#page,#root.methodName}",value = "SCANNER")
     public ProductListResponse getBrandItemsByFilter(String filter, String brandName, int page) {
 
         int itemPerPage = 16;
@@ -581,9 +593,9 @@ public class ProductServiceImpl implements ProductService {
         LOGGER.error(String.format("brand filter list is returned with page %d",page));
 
         List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
-                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getPrice().toString(),p.getPrevPrice().toString(),p.getDiscount().toString(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
                 gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
-                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate().toString(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
         long numOfItems = productDao.getNumOfBrandItems(brandName.toLowerCase());
 
@@ -591,7 +603,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductListResponse getSearchItemsByFilter(String filter, String f_value, int ctg_id, String value, int page) {
+    @Cacheable(key = "{#filter,#f_value,#ctg_name,#value,#page,#root.methodName}",value = "SCANNER")
+    public ProductListResponse getSearchItemsByFilter(String filter, String f_value, String ctg_name, String value, int page) {
 
         int itemPerPage = 16;
 
@@ -640,6 +653,8 @@ public class ProductServiceImpl implements ProductService {
 
         List<Product> products = null;
 
+        int ctg_id = categoryService.getCategoryId(ctg_name);
+
         if(filter.equalsIgnoreCase("s2"))
             products = productDao.getSearchItemsByPriceLowToHigh(f_value.toLowerCase(),ctg_id,minPrice,maxPrice,start).orElse(Arrays.asList());
         else if(filter.equalsIgnoreCase("s3"))
@@ -656,9 +671,9 @@ public class ProductServiceImpl implements ProductService {
         LOGGER.error(String.format("search filter list is returned with page %d",page));
 
         List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
-                p.getPrice(),p.getPrevPrice(),p.getDiscount(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                p.getPrice().toString(),p.getPrevPrice().toString(),p.getDiscount().toString(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
                 gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
-                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate().toString(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
 
 
         long numOfItems = productDao.getNumOfSearchItems(f_value.toLowerCase(),ctg_id,minPrice,maxPrice);
@@ -681,6 +696,93 @@ public class ProductServiceImpl implements ProductService {
 
           productDao.save(product);
 
+    }
+
+    @Override
+    @Cacheable(key = "{#ctg,#page,#root.methodName}",value = "SCANNER")
+    public ProductListResponse getProductsByCategory(String ctg, int page) {
+
+        int itemPerPage = 16;
+
+        int start=page;
+
+        if(start==1)
+            start=0;
+        else
+            start= (page-1) * itemPerPage;
+
+        int ctgId = categoryService.getCategoryId(ctg);
+
+        List<Product> products = productDao.getItemsByCategory(ctgId,start)
+                .orElseThrow(()->{
+                    LOGGER.error(String.format("%s item list is empty",ctg));
+                    throw new DataNotFoundException(String.format("%s item list is empty",ctg));
+                });
+
+        LOGGER.error(String.format("%s item list is returned with page %d",ctg,page));
+
+        List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
+                p.getPrice().toString(),p.getPrevPrice().toString(),p.getDiscount().toString(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate().toString(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+
+        long numOfItems = productDao.getNumOfCategoryItems(ctgId);
+
+        return new ProductListResponse(productResponses,numOfItems);
+    }
+
+    @Override
+    @Cacheable(key = "{#ctg,#filter,#page,#root.methodName}",value = "SCANNER")
+    public ProductListResponse getProductByCategoryFilter(String ctg, String filter, int page) {
+
+        int itemPerPage = 16;
+
+        int start=page;
+
+        if(start==1)
+            start=0;
+        else
+            start= (page-1) * itemPerPage;
+
+        List<Product> products = null;
+
+        int ctgId = categoryService.getCategoryId(ctg);
+
+        if(filter.equalsIgnoreCase("s2"))
+            products = productDao.getCategoryItemsByPriceLowToHigh(ctgId,start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s3"))
+            products = productDao.getCategoryItemsByPriceHighToLow(ctgId,start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s4"))
+            products = productDao.getCategoryItemsByDateNewToOld(ctgId,start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s5"))
+            products = productDao.getCategoryItemsByDateOldToNew(ctgId,start).orElse(Arrays.asList());
+        else if(filter.equalsIgnoreCase("s6"))
+            products = productDao.getCategoryItemsByBestSelling(ctgId,start).orElse(Arrays.asList());
+        else
+            products = productDao.getItemsByCategory(ctgId,page).orElse(Arrays.asList());
+
+        LOGGER.error(String.format("category filter list is returned with page %d",page));
+
+        List<ProductResponse> productResponses = products.stream().map(p->new ProductResponse(p.getProductId(),p.getProductName(),
+                p.getPrice().toString(),p.getPrevPrice().toString(),p.getDiscount().toString(),p.getDiscountPercentage(),p.getMaterial(),p.getShippingCountry(),
+                gerOfferEndDate(p.getOfferExpDate()),p.getProductImg(),p.getBrandImg(),p.getPlatformImg(),p.getBrandName(),p.getPlatformUrl(),
+                p.getPlatform(),p.getItemUrl(),p.getOfferType(),p.getSellingRate().toString(),p.getForValue(),p.getCategoryId(),p.getDealId())).collect(Collectors.toList());
+
+        long numOfItems = productDao.getNumOfCategoryItems(ctgId);
+
+        return new ProductListResponse(productResponses,numOfItems);
+    }
+
+    @Override
+    @Cacheable(key = "{#ctgId,#root.methodName}",value = "SCANNER")
+    public List<Product> getProductListByCategory(int ctgId) {
+
+        List<Product> products = productDao.getProductListByCategory(ctgId)
+                .orElse(Arrays.asList());
+
+        LOGGER.info(String.format("product list is returned with ctgId %d",ctgId));
+
+        return products;
     }
 
 }

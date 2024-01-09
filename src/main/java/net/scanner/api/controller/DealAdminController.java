@@ -32,8 +32,8 @@ public class DealAdminController {
         return new ResponseEntity<>(dealAdminService.getDealById(id), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/find",produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<DealResponse> getDealByName(@RequestParam("name") String name){
+    @GetMapping(value = "/find/{name}",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<DealResponse> getDealByName(@PathVariable String name){
         return new ResponseEntity<>(dealAdminService.getDealByName(name), HttpStatus.OK);
     }
 

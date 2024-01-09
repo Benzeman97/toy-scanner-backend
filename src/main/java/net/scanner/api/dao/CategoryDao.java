@@ -16,4 +16,5 @@ public interface CategoryDao extends JpaRepository<Category,Integer> {
 
     @Query(value = "select * from category c order by c.category_id desc limit 1",nativeQuery = true)
     Category getLastCategory();
+
 }

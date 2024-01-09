@@ -27,8 +27,8 @@ public class ProductAdminController {
         return new ResponseEntity<>(productAdminService.getProductById(id), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/find",produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ProductResponse> getProductByName(@RequestParam("name") String name){
+    @GetMapping(value = "/find/{name}",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ProductResponse> getProductByName(@PathVariable("name") String name){
         return new ResponseEntity<>(productAdminService.getProductByName(name), HttpStatus.OK);
     }
 

@@ -30,8 +30,8 @@ public class CategoryAdminController {
         return new ResponseEntity<>(categoryAdminService.getCategoryById(id), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/find",produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<CategoryResponse> getCategoryByName(@RequestParam("name") String name){
+    @GetMapping(value = "/find/{name}",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<CategoryResponse> getCategoryByName(@PathVariable("name") String name){
         return new ResponseEntity<>(categoryAdminService.getCategoryByName(name), HttpStatus.OK);
     }
 
